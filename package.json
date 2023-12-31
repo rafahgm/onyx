@@ -3,6 +3,11 @@
   "description": "This package file is for node modules used in mozilla-central",
   "repository": {},
   "license": "MPL-2.0",
+  "scripts": {
+    "clearProfile": "rm -rf obj-x86_64-pc-windows-msvc/tmp/profile-default",
+    "clearStartupCache": "rm -rf obj-x86_64-pc-windows-msvc/tmp/profile-default/startupCache",
+    "buildRunClearProfile": "npm run clearProfile && mach build && mach run"
+  },
   "devDependencies": {
     "@babel/core": "7.21.4",
     "@babel/eslint-parser": "7.21.3",
