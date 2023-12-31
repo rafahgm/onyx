@@ -235,6 +235,7 @@
   /* Make the toolbar not take any vertical space when it's empty, before
      bookmarks load. Otherwise, showing the toolbar might resize the content
      area twice. */
+     display: none;
   min-height: 0;
   padding-inline: 6px;
 
