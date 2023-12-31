@@ -1,0 +1,973 @@
+# -*- Mode: python; indent-tabs-mode: nil; tab-width: 40 -*-
+# vim: set filetype=python:
+
+with Files("**"):
+    BUG_COMPONENT = ("Firefox", "uBlock")
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"] += [
+    "1p-filters.html",
+    "3p-filters.html",
+    "about.html",
+    "advanced-settings.html",
+    "asset-viewer.html",
+    "background.html",
+    "cloud-ui.html",
+    "code-viewer.html",
+    "dashboard.html",
+    "devtools.html",
+    "document-blocked.html",
+    "dyna-rules.html",
+    "LICENSE.txt",
+    "logger-ui.html",
+    "managed_storage.json",
+    "manifest.json",
+    "no-dashboard.html",
+    "popup-fenix.html",
+    "settings.html",
+    "support.html",
+    "whitelist.html"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["assets"] += [
+    "assets/assets.dev.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["assets"]["resources"] += [
+    "assets/resources/scriptlets.js"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["assets"]["thirdparties"]["easylist"] += [
+    "assets/thirdparties/easylist/easylist.txt",
+    "assets/thirdparties/easylist/easyprivacy.txt"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["assets"]["thirdparties"]["pgl.yoyo.org"]["as"] += [
+    "assets/thirdparties/pgl.yoyo.org/as/README.md",
+    "assets/thirdparties/pgl.yoyo.org/as/serverlist"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["assets"]["thirdparties"]["publicsuffix.org"]["list"] += [
+    "assets/thirdparties/publicsuffix.org/list/effective_tld_names.dat"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["assets"]["thirdparties"]["urlhaus-filter"] += [
+    "assets/thirdparties/urlhaus-filter/LICENSE.md",
+    "assets/thirdparties/urlhaus-filter/urlhaus-filter-online.txt"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["assets"]["ublock"] += [
+    "assets/ublock/badlists.txt",
+    "assets/ublock/badware.min.txt",
+    "assets/ublock/filters.min.txt",
+    "assets/ublock/privacy.min.txt",
+    "assets/ublock/quick-fixes.min.txt",
+    "assets/ublock/unbreak.min.txt"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["css"] += [
+    "css/1p-filters.css",
+    "css/3p-filters.css",
+    "css/about.css",
+    "css/advanced-settings.css",
+    "css/asset-viewer.css",
+    "css/click2load.css",
+    "css/cloud-ui.css",
+    "css/code-viewer.css",
+    "css/codemirror.css",
+    "css/common.css",
+    "css/dashboard-common.css",
+    "css/dashboard.css",
+    "css/devtools.css",
+    "css/document-blocked.css",
+    "css/dom-inspector.css",
+    "css/dyna-rules.css",
+    "css/epicker-ui.css",
+    "css/fa-icons.css",
+    "css/logger-ui-inspector.css",
+    "css/logger-ui.css",
+    "css/popup-fenix.css",
+    "css/settings.css",
+    "css/support.css",
+    "css/whitelist.css"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["css"]["fonts"]["Inter"] += [
+    "css/fonts/Inter/Inter-Regular.woff2",
+    "css/fonts/Inter/Inter-SemiBold.woff2",
+    "css/fonts/Inter/LICENSE.txt"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["css"]["fonts"]["Metropolis"] += [
+    "css/fonts/Metropolis/Metropolis-Regular.woff2",
+    "css/fonts/Metropolis/Metropolis-SemiBold.woff2",
+    "css/fonts/Metropolis/README.md",
+    "css/fonts/Metropolis/UNLICENSE"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["css"]["themes"] += [
+    "css/themes/default.css"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["img"] += [
+    "img/cloud.png",
+    "img/help16.png",
+    "img/icon_16-loading.png",
+    "img/icon_16-off.png",
+    "img/icon_16.png",
+    "img/icon_32-loading.png",
+    "img/icon_32-off.png",
+    "img/icon_32.png",
+    "img/icon_64-loading.png",
+    "img/icon_64-off.png",
+    "img/icon_64.png",
+    "img/material-design.svg",
+    "img/photon.svg",
+    "img/ublock-defs.svg",
+    "img/ublock.svg"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["img"]["flags-of-the-world"] += [
+    "img/flags-of-the-world/ad.png",
+    "img/flags-of-the-world/ae.png",
+    "img/flags-of-the-world/af.png",
+    "img/flags-of-the-world/ag.png",
+    "img/flags-of-the-world/ai.png",
+    "img/flags-of-the-world/al.png",
+    "img/flags-of-the-world/am.png",
+    "img/flags-of-the-world/ao.png",
+    "img/flags-of-the-world/aq.png",
+    "img/flags-of-the-world/ar.png",
+    "img/flags-of-the-world/as.png",
+    "img/flags-of-the-world/at.png",
+    "img/flags-of-the-world/au.png",
+    "img/flags-of-the-world/aw.png",
+    "img/flags-of-the-world/ax.png",
+    "img/flags-of-the-world/az.png",
+    "img/flags-of-the-world/ba.png",
+    "img/flags-of-the-world/bb.png",
+    "img/flags-of-the-world/bd.png",
+    "img/flags-of-the-world/be.png",
+    "img/flags-of-the-world/bf.png",
+    "img/flags-of-the-world/bg.png",
+    "img/flags-of-the-world/bh.png",
+    "img/flags-of-the-world/bi.png",
+    "img/flags-of-the-world/bj.png",
+    "img/flags-of-the-world/bl.png",
+    "img/flags-of-the-world/bm.png",
+    "img/flags-of-the-world/bn.png",
+    "img/flags-of-the-world/bo.png",
+    "img/flags-of-the-world/bq.png",
+    "img/flags-of-the-world/br.png",
+    "img/flags-of-the-world/bs.png",
+    "img/flags-of-the-world/bt.png",
+    "img/flags-of-the-world/bv.png",
+    "img/flags-of-the-world/bw.png",
+    "img/flags-of-the-world/by.png",
+    "img/flags-of-the-world/bz.png",
+    "img/flags-of-the-world/ca.png",
+    "img/flags-of-the-world/cc.png",
+    "img/flags-of-the-world/cd.png",
+    "img/flags-of-the-world/cf.png",
+    "img/flags-of-the-world/cg.png",
+    "img/flags-of-the-world/ch.png",
+    "img/flags-of-the-world/ci.png",
+    "img/flags-of-the-world/ck.png",
+    "img/flags-of-the-world/cl.png",
+    "img/flags-of-the-world/cm.png",
+    "img/flags-of-the-world/cn.png",
+    "img/flags-of-the-world/co.png",
+    "img/flags-of-the-world/cr.png",
+    "img/flags-of-the-world/cu.png",
+    "img/flags-of-the-world/cv.png",
+    "img/flags-of-the-world/cw.png",
+    "img/flags-of-the-world/cx.png",
+    "img/flags-of-the-world/cy.png",
+    "img/flags-of-the-world/cz.png",
+    "img/flags-of-the-world/de.png",
+    "img/flags-of-the-world/dj.png",
+    "img/flags-of-the-world/dk.png",
+    "img/flags-of-the-world/dm.png",
+    "img/flags-of-the-world/do.png",
+    "img/flags-of-the-world/dz.png",
+    "img/flags-of-the-world/ec.png",
+    "img/flags-of-the-world/ee.png",
+    "img/flags-of-the-world/eg.png",
+    "img/flags-of-the-world/eh.png",
+    "img/flags-of-the-world/er.png",
+    "img/flags-of-the-world/es.png",
+    "img/flags-of-the-world/et.png",
+    "img/flags-of-the-world/fi.png",
+    "img/flags-of-the-world/fj.png",
+    "img/flags-of-the-world/fk.png",
+    "img/flags-of-the-world/fm.png",
+    "img/flags-of-the-world/fo.png",
+    "img/flags-of-the-world/fr.png",
+    "img/flags-of-the-world/ga.png",
+    "img/flags-of-the-world/gb-eng.png",
+    "img/flags-of-the-world/gb-nir.png",
+    "img/flags-of-the-world/gb-sct.png",
+    "img/flags-of-the-world/gb-wls.png",
+    "img/flags-of-the-world/gb.png",
+    "img/flags-of-the-world/gd.png",
+    "img/flags-of-the-world/ge.png",
+    "img/flags-of-the-world/gf.png",
+    "img/flags-of-the-world/gg.png",
+    "img/flags-of-the-world/gh.png",
+    "img/flags-of-the-world/gi.png",
+    "img/flags-of-the-world/gl.png",
+    "img/flags-of-the-world/gm.png",
+    "img/flags-of-the-world/gn.png",
+    "img/flags-of-the-world/gp.png",
+    "img/flags-of-the-world/gq.png",
+    "img/flags-of-the-world/gr.png",
+    "img/flags-of-the-world/gs.png",
+    "img/flags-of-the-world/gt.png",
+    "img/flags-of-the-world/gu.png",
+    "img/flags-of-the-world/gw.png",
+    "img/flags-of-the-world/gy.png",
+    "img/flags-of-the-world/hk.png",
+    "img/flags-of-the-world/hm.png",
+    "img/flags-of-the-world/hn.png",
+    "img/flags-of-the-world/hr.png",
+    "img/flags-of-the-world/ht.png",
+    "img/flags-of-the-world/hu.png",
+    "img/flags-of-the-world/id.png",
+    "img/flags-of-the-world/ie.png",
+    "img/flags-of-the-world/il.png",
+    "img/flags-of-the-world/im.png",
+    "img/flags-of-the-world/in.png",
+    "img/flags-of-the-world/io.png",
+    "img/flags-of-the-world/iq.png",
+    "img/flags-of-the-world/ir.png",
+    "img/flags-of-the-world/is.png",
+    "img/flags-of-the-world/it.png",
+    "img/flags-of-the-world/je.png",
+    "img/flags-of-the-world/jm.png",
+    "img/flags-of-the-world/jo.png",
+    "img/flags-of-the-world/jp.png",
+    "img/flags-of-the-world/ke.png",
+    "img/flags-of-the-world/kg.png",
+    "img/flags-of-the-world/kh.png",
+    "img/flags-of-the-world/ki.png",
+    "img/flags-of-the-world/km.png",
+    "img/flags-of-the-world/kn.png",
+    "img/flags-of-the-world/kp.png",
+    "img/flags-of-the-world/kr.png",
+    "img/flags-of-the-world/kw.png",
+    "img/flags-of-the-world/ky.png",
+    "img/flags-of-the-world/kz.png",
+    "img/flags-of-the-world/la.png",
+    "img/flags-of-the-world/lb.png",
+    "img/flags-of-the-world/lc.png",
+    "img/flags-of-the-world/li.png",
+    "img/flags-of-the-world/lk.png",
+    "img/flags-of-the-world/lr.png",
+    "img/flags-of-the-world/ls.png",
+    "img/flags-of-the-world/lt.png",
+    "img/flags-of-the-world/lu.png",
+    "img/flags-of-the-world/lv.png",
+    "img/flags-of-the-world/ly.png",
+    "img/flags-of-the-world/ma.png",
+    "img/flags-of-the-world/mc.png",
+    "img/flags-of-the-world/md.png",
+    "img/flags-of-the-world/me.png",
+    "img/flags-of-the-world/mf.png",
+    "img/flags-of-the-world/mg.png",
+    "img/flags-of-the-world/mh.png",
+    "img/flags-of-the-world/mk.png",
+    "img/flags-of-the-world/ml.png",
+    "img/flags-of-the-world/mm.png",
+    "img/flags-of-the-world/mn.png",
+    "img/flags-of-the-world/mo.png",
+    "img/flags-of-the-world/mp.png",
+    "img/flags-of-the-world/mq.png",
+    "img/flags-of-the-world/mr.png",
+    "img/flags-of-the-world/ms.png",
+    "img/flags-of-the-world/mt.png",
+    "img/flags-of-the-world/mu.png",
+    "img/flags-of-the-world/mv.png",
+    "img/flags-of-the-world/mw.png",
+    "img/flags-of-the-world/mx.png",
+    "img/flags-of-the-world/my.png",
+    "img/flags-of-the-world/mz.png",
+    "img/flags-of-the-world/na.png",
+    "img/flags-of-the-world/nc.png",
+    "img/flags-of-the-world/ne.png",
+    "img/flags-of-the-world/nf.png",
+    "img/flags-of-the-world/ng.png",
+    "img/flags-of-the-world/ni.png",
+    "img/flags-of-the-world/nl.png",
+    "img/flags-of-the-world/no.png",
+    "img/flags-of-the-world/np.png",
+    "img/flags-of-the-world/nr.png",
+    "img/flags-of-the-world/nu.png",
+    "img/flags-of-the-world/nz.png",
+    "img/flags-of-the-world/om.png",
+    "img/flags-of-the-world/pa.png",
+    "img/flags-of-the-world/pe.png",
+    "img/flags-of-the-world/pf.png",
+    "img/flags-of-the-world/pg.png",
+    "img/flags-of-the-world/ph.png",
+    "img/flags-of-the-world/pk.png",
+    "img/flags-of-the-world/pl.png",
+    "img/flags-of-the-world/pm.png",
+    "img/flags-of-the-world/pn.png",
+    "img/flags-of-the-world/pr.png",
+    "img/flags-of-the-world/ps.png",
+    "img/flags-of-the-world/pt.png",
+    "img/flags-of-the-world/pw.png",
+    "img/flags-of-the-world/py.png",
+    "img/flags-of-the-world/qa.png",
+    "img/flags-of-the-world/re.png",
+    "img/flags-of-the-world/README",
+    "img/flags-of-the-world/ro.png",
+    "img/flags-of-the-world/rs.png",
+    "img/flags-of-the-world/ru.png",
+    "img/flags-of-the-world/rw.png",
+    "img/flags-of-the-world/sa.png",
+    "img/flags-of-the-world/sb.png",
+    "img/flags-of-the-world/sc.png",
+    "img/flags-of-the-world/sd.png",
+    "img/flags-of-the-world/se.png",
+    "img/flags-of-the-world/sg.png",
+    "img/flags-of-the-world/sh.png",
+    "img/flags-of-the-world/si.png",
+    "img/flags-of-the-world/sj.png",
+    "img/flags-of-the-world/sk.png",
+    "img/flags-of-the-world/sl.png",
+    "img/flags-of-the-world/sm.png",
+    "img/flags-of-the-world/sn.png",
+    "img/flags-of-the-world/so.png",
+    "img/flags-of-the-world/sr.png",
+    "img/flags-of-the-world/ss.png",
+    "img/flags-of-the-world/st.png",
+    "img/flags-of-the-world/sv.png",
+    "img/flags-of-the-world/sx.png",
+    "img/flags-of-the-world/sy.png",
+    "img/flags-of-the-world/sz.png",
+    "img/flags-of-the-world/tc.png",
+    "img/flags-of-the-world/td.png",
+    "img/flags-of-the-world/tf.png",
+    "img/flags-of-the-world/tg.png",
+    "img/flags-of-the-world/th.png",
+    "img/flags-of-the-world/tj.png",
+    "img/flags-of-the-world/tk.png",
+    "img/flags-of-the-world/tl.png",
+    "img/flags-of-the-world/tm.png",
+    "img/flags-of-the-world/tn.png",
+    "img/flags-of-the-world/to.png",
+    "img/flags-of-the-world/tr.png",
+    "img/flags-of-the-world/tt.png",
+    "img/flags-of-the-world/tv.png",
+    "img/flags-of-the-world/tw.png",
+    "img/flags-of-the-world/tz.png",
+    "img/flags-of-the-world/ua.png",
+    "img/flags-of-the-world/ug.png",
+    "img/flags-of-the-world/um.png",
+    "img/flags-of-the-world/us.png",
+    "img/flags-of-the-world/uy.png",
+    "img/flags-of-the-world/uz.png",
+    "img/flags-of-the-world/va.png",
+    "img/flags-of-the-world/vc.png",
+    "img/flags-of-the-world/ve.png",
+    "img/flags-of-the-world/vg.png",
+    "img/flags-of-the-world/vi.png",
+    "img/flags-of-the-world/vn.png",
+    "img/flags-of-the-world/vu.png",
+    "img/flags-of-the-world/wf.png",
+    "img/flags-of-the-world/ws.png",
+    "img/flags-of-the-world/xk.png",
+    "img/flags-of-the-world/ye.png",
+    "img/flags-of-the-world/yt.png",
+    "img/flags-of-the-world/za.png",
+    "img/flags-of-the-world/zm.png",
+    "img/flags-of-the-world/zw.png"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["img"]["fontawesome"] += [
+    "img/fontawesome/fontawesome-defs.svg",
+    "img/fontawesome/LICENSE.txt"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["js"] += [
+    "js/1p-filters.js",
+    "js/3p-filters.js",
+    "js/about.js",
+    "js/advanced-settings.js",
+    "js/asset-viewer.js",
+    "js/assets.js",
+    "js/background.js",
+    "js/base64-custom.js",
+    "js/benchmarks.js",
+    "js/biditrie.js",
+    "js/broadcast.js",
+    "js/cachestorage.js",
+    "js/click2load.js",
+    "js/cloud-ui.js",
+    "js/code-viewer.js",
+    "js/commands.js",
+    "js/console.js",
+    "js/contentscript-extra.js",
+    "js/contentscript.js",
+    "js/contextmenu.js",
+    "js/cosmetic-filtering.js",
+    "js/dashboard-common.js",
+    "js/dashboard.js",
+    "js/devtools.js",
+    "js/diff-updater.js",
+    "js/document-blocked.js",
+    "js/dom-inspector.js",
+    "js/dom.js",
+    "js/dyna-rules.js",
+    "js/dynamic-net-filtering.js",
+    "js/epicker-ui.js",
+    "js/fa-icons.js",
+    "js/filtering-context.js",
+    "js/filtering-engines.js",
+    "js/hnswitches.js",
+    "js/hntrie.js",
+    "js/html-filtering.js",
+    "js/httpheader-filtering.js",
+    "js/i18n.js",
+    "js/logger-ui-inspector.js",
+    "js/logger-ui.js",
+    "js/logger.js",
+    "js/lz4.js",
+    "js/messaging.js",
+    "js/mrucache.js",
+    "js/pagestore.js",
+    "js/popup-fenix.js",
+    "js/redirect-engine.js",
+    "js/redirect-resources.js",
+    "js/reverselookup-worker.js",
+    "js/reverselookup.js",
+    "js/scriptlet-filtering-core.js",
+    "js/scriptlet-filtering.js",
+    "js/settings.js",
+    "js/start.js",
+    "js/static-dnr-filtering.js",
+    "js/static-ext-filtering-db.js",
+    "js/static-ext-filtering.js",
+    "js/static-filtering-io.js",
+    "js/static-filtering-parser.js",
+    "js/static-net-filtering.js",
+    "js/storage.js",
+    "js/support.js",
+    "js/tab.js",
+    "js/tasks.js",
+    "js/text-encode.js",
+    "js/text-utils.js",
+    "js/theme.js",
+    "js/traffic.js",
+    "js/ublock.js",
+    "js/uri-utils.js",
+    "js/url-net-filtering.js",
+    "js/utils.js",
+    "js/vapi-background-ext.js",
+    "js/vapi-background.js",
+    "js/vapi-client.js",
+    "js/vapi-common.js",
+    "js/vapi.js",
+    "js/webext.js",
+    "js/whitelist.js"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["js"]["codemirror"] += [
+    "js/codemirror/search-thread.js",
+    "js/codemirror/search.js",
+    "js/codemirror/ubo-dynamic-filtering.js",
+    "js/codemirror/ubo-static-filtering.js"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["js"]["scriptlets"] += [
+    "js/scriptlets/cosmetic-logger.js",
+    "js/scriptlets/cosmetic-off.js",
+    "js/scriptlets/cosmetic-on.js",
+    "js/scriptlets/cosmetic-report.js",
+    "js/scriptlets/dom-inspector.js",
+    "js/scriptlets/dom-survey-elements.js",
+    "js/scriptlets/dom-survey-scripts.js",
+    "js/scriptlets/epicker.js",
+    "js/scriptlets/load-3p-css.js",
+    "js/scriptlets/load-large-media-all.js",
+    "js/scriptlets/load-large-media-interactive.js",
+    "js/scriptlets/noscript-spoof.js",
+    "js/scriptlets/should-inject-contentscript.js",
+    "js/scriptlets/subscriber.js",
+    "js/scriptlets/updater.js"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["js"]["wasm"] += [
+    "js/wasm/biditrie.wasm",
+    "js/wasm/biditrie.wat",
+    "js/wasm/hntrie.wasm",
+    "js/wasm/hntrie.wat",
+    "js/wasm/README.md"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["lib"] += [
+    "lib/punycode.js"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["lib"]["codemirror"] += [
+    "lib/codemirror/LICENSE",
+    "lib/codemirror/README.md"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["lib"]["codemirror"]["addon"]["comment"] += [
+    "lib/codemirror/addon/comment/comment.js"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["lib"]["codemirror"]["addon"]["display"] += [
+    "lib/codemirror/addon/display/panel.js"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["lib"]["codemirror"]["addon"]["edit"] += [
+    "lib/codemirror/addon/edit/closebrackets.js",
+    "lib/codemirror/addon/edit/matchbrackets.js"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["lib"]["codemirror"]["addon"]["fold"] += [
+    "lib/codemirror/addon/fold/foldcode.js",
+    "lib/codemirror/addon/fold/foldgutter.css",
+    "lib/codemirror/addon/fold/foldgutter.js"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["lib"]["codemirror"]["addon"]["hint"] += [
+    "lib/codemirror/addon/hint/show-hint.css",
+    "lib/codemirror/addon/hint/show-hint.js"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["lib"]["codemirror"]["addon"]["merge"] += [
+    "lib/codemirror/addon/merge/merge.css",
+    "lib/codemirror/addon/merge/merge.js"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["lib"]["codemirror"]["addon"]["scroll"] += [
+    "lib/codemirror/addon/scroll/annotatescrollbar.js"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["lib"]["codemirror"]["addon"]["search"] += [
+    "lib/codemirror/addon/search/matchesonscrollbar.css",
+    "lib/codemirror/addon/search/searchcursor.js"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["lib"]["codemirror"]["addon"]["selection"] += [
+    "lib/codemirror/addon/selection/active-line.js"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["lib"]["codemirror"]["lib"] += [
+    "lib/codemirror/lib/codemirror.css",
+    "lib/codemirror/lib/codemirror.js"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["lib"]["codemirror"]["mode"]["css"] += [
+    "lib/codemirror/mode/css/css.js"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["lib"]["codemirror"]["mode"]["htmlmixed"] += [
+    "lib/codemirror/mode/htmlmixed/htmlmixed.js"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["lib"]["codemirror"]["mode"]["javascript"] += [
+    "lib/codemirror/mode/javascript/javascript.js"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["lib"]["codemirror"]["mode"]["xml"] += [
+    "lib/codemirror/mode/xml/xml.js"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["lib"]["codemirror"]["theme"] += [
+    "lib/codemirror/theme/night.css"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["lib"]["csstree"] += [
+    "lib/csstree/css-tree.js",
+    "lib/csstree/LICENSE"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["lib"]["diff"] += [
+    "lib/diff/README.md",
+    "lib/diff/swatinem_diff.js"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["lib"]["hsluv"] += [
+    "lib/hsluv/hsluv-0.1.0.min.js",
+    "lib/hsluv/LICENSE",
+    "lib/hsluv/README"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["lib"]["js-beautify"] += [
+    "lib/js-beautify/beautifier.min.js",
+    "lib/js-beautify/LICENSE",
+    "lib/js-beautify/README"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["lib"]["lz4"] += [
+    "lib/lz4/lz4-block-codec-any.js",
+    "lib/lz4/lz4-block-codec-js.js",
+    "lib/lz4/lz4-block-codec-wasm.js",
+    "lib/lz4/lz4-block-codec.wasm",
+    "lib/lz4/lz4-block-codec.wat",
+    "lib/lz4/README.md"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["lib"]["publicsuffixlist"] += [
+    "lib/publicsuffixlist/publicsuffixlist.js"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["lib"]["publicsuffixlist"]["wasm"] += [
+    "lib/publicsuffixlist/wasm/publicsuffixlist.wasm",
+    "lib/publicsuffixlist/wasm/publicsuffixlist.wat",
+    "lib/publicsuffixlist/wasm/README.md"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["lib"]["regexanalyzer"] += [
+    "lib/regexanalyzer/CHANGES.md",
+    "lib/regexanalyzer/README.md",
+    "lib/regexanalyzer/regex.js"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["META-INF"] += [
+    "META-INF/cose.manifest",
+    "META-INF/cose.sig",
+    "META-INF/manifest.mf",
+    "META-INF/mozilla.rsa",
+    "META-INF/mozilla.sf"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["web_accessible_resources"] += [
+    "web_accessible_resources/1x1.gif",
+    "web_accessible_resources/2x2.png",
+    "web_accessible_resources/32x32.png",
+    "web_accessible_resources/3x2.png",
+    "web_accessible_resources/amazon_ads.js",
+    "web_accessible_resources/amazon_apstag.js",
+    "web_accessible_resources/ampproject_v0.js",
+    "web_accessible_resources/chartbeat.js",
+    "web_accessible_resources/click2load.html",
+    "web_accessible_resources/dom-inspector.html",
+    "web_accessible_resources/doubleclick_instream_ad_status.js",
+    "web_accessible_resources/empty",
+    "web_accessible_resources/epicker-ui.html",
+    "web_accessible_resources/fingerprint2.js",
+    "web_accessible_resources/fingerprint3.js",
+    "web_accessible_resources/google-analytics_analytics.js",
+    "web_accessible_resources/google-analytics_cx_api.js",
+    "web_accessible_resources/google-analytics_ga.js",
+    "web_accessible_resources/google-analytics_inpage_linkid.js",
+    "web_accessible_resources/google-ima.js",
+    "web_accessible_resources/googlesyndication_adsbygoogle.js",
+    "web_accessible_resources/googletagmanager_gtm.js",
+    "web_accessible_resources/googletagservices_gpt.js",
+    "web_accessible_resources/hd-main.js",
+    "web_accessible_resources/nobab.js",
+    "web_accessible_resources/nobab2.js",
+    "web_accessible_resources/noeval-silent.js",
+    "web_accessible_resources/noeval.js",
+    "web_accessible_resources/nofab.js",
+    "web_accessible_resources/noop-0.1s.mp3",
+    "web_accessible_resources/noop-0.5s.mp3",
+    "web_accessible_resources/noop-1s.mp4",
+    "web_accessible_resources/noop-vmap1.0.xml",
+    "web_accessible_resources/noop.css",
+    "web_accessible_resources/noop.html",
+    "web_accessible_resources/noop.js",
+    "web_accessible_resources/noop.json",
+    "web_accessible_resources/noop.txt",
+    "web_accessible_resources/outbrain-widget.js",
+    "web_accessible_resources/popads-dummy.js",
+    "web_accessible_resources/popads.js",
+    "web_accessible_resources/prebid-ads.js",
+    "web_accessible_resources/README.txt",
+    "web_accessible_resources/scorecardresearch_beacon.js"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["ar"] += [
+    "_locales/ar/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["az"] += [
+    "_locales/az/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["be"] += [
+    "_locales/be/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["bg"] += [
+    "_locales/bg/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["bn"] += [
+    "_locales/bn/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["br_FR"] += [
+    "_locales/br_FR/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["bs"] += [
+    "_locales/bs/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["ca"] += [
+    "_locales/ca/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["cs"] += [
+    "_locales/cs/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["cv"] += [
+    "_locales/cv/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["da"] += [
+    "_locales/da/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["de"] += [
+    "_locales/de/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["el"] += [
+    "_locales/el/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["en"] += [
+    "_locales/en/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["en_GB"] += [
+    "_locales/en_GB/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["eo"] += [
+    "_locales/eo/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["es"] += [
+    "_locales/es/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["et"] += [
+    "_locales/et/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["eu"] += [
+    "_locales/eu/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["fa"] += [
+    "_locales/fa/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["fi"] += [
+    "_locales/fi/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["fil"] += [
+    "_locales/fil/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["fr"] += [
+    "_locales/fr/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["fy"] += [
+    "_locales/fy/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["gl"] += [
+    "_locales/gl/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["gu"] += [
+    "_locales/gu/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["he"] += [
+    "_locales/he/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["hi"] += [
+    "_locales/hi/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["hr"] += [
+    "_locales/hr/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["hu"] += [
+    "_locales/hu/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["hy"] += [
+    "_locales/hy/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["id"] += [
+    "_locales/id/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["it"] += [
+    "_locales/it/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["ja"] += [
+    "_locales/ja/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["ka"] += [
+    "_locales/ka/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["kk"] += [
+    "_locales/kk/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["kn"] += [
+    "_locales/kn/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["ko"] += [
+    "_locales/ko/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["ku"] += [
+    "_locales/ku/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["lt"] += [
+    "_locales/lt/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["lv"] += [
+    "_locales/lv/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["mk"] += [
+    "_locales/mk/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["ml"] += [
+    "_locales/ml/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["mr"] += [
+    "_locales/mr/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["ms"] += [
+    "_locales/ms/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["nb"] += [
+    "_locales/nb/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["nl"] += [
+    "_locales/nl/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["no"] += [
+    "_locales/no/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["oc"] += [
+    "_locales/oc/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["pa"] += [
+    "_locales/pa/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["pl"] += [
+    "_locales/pl/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["pt_BR"] += [
+    "_locales/pt_BR/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["pt_PT"] += [
+    "_locales/pt_PT/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["ro"] += [
+    "_locales/ro/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["ru"] += [
+    "_locales/ru/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["si"] += [
+    "_locales/si/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["sk"] += [
+    "_locales/sk/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["sl"] += [
+    "_locales/sl/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["so"] += [
+    "_locales/so/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["sq"] += [
+    "_locales/sq/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["sr"] += [
+    "_locales/sr/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["sv"] += [
+    "_locales/sv/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["sw"] += [
+    "_locales/sw/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["ta"] += [
+    "_locales/ta/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["te"] += [
+    "_locales/te/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["th"] += [
+    "_locales/th/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["tr"] += [
+    "_locales/tr/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["uk"] += [
+    "_locales/uk/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["ur"] += [
+    "_locales/ur/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["vi"] += [
+    "_locales/vi/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["zh_CN"] += [
+    "_locales/zh_CN/messages.json"
+]
+
+FINAL_TARGET_FILES.features["uBlock0@raymondhill.net"]["_locales"]["zh_TW"] += [
+    "_locales/zh_TW/messages.json"
+]
+
