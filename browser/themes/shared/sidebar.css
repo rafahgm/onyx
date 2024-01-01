@@ -8,6 +8,8 @@
   --sidebar-background-color: -moz-sidebar;
   --sidebar-text-color: -moz-sidebartext;
   --sidebar-border-color: -moz-sidebarborder;
+  --sidebar-inside-padding: 10px;
+  --sidebar-tab-hover-color: color-mix(in srgb, currentColor 11%, transparent);
 }
 
 #sidebar-box {
@@ -136,4 +138,36 @@ menuseparator + #sidebar-extensions-separator {
   -moz-context-properties: fill;
   fill: currentColor;
   opacity: 0.8;
+}
+
+
+.sidebar-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: -moz-Dialog;
+  overflow: hidden;
+
+  max-width: calc(var(--tab-min-height) + 2px + var(--tab-block-margin) * 2);
+
+  position: relative;
+}
+
+.sidebar-icon-item {
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  display: block;
+  width: 16px;
+  height: 16px;
+  -moz-context-properties: fill;
+  fill: currentColor;
+  opacity: 0.8;
+  color: var(--toolbarbutton-icon-fill);
+  padding: var(--sidebar-inside-padding);
+}
+
+.sidebar-item-background:hover {
+  background-color: var(--sidebar-tab-hover-color);
 }

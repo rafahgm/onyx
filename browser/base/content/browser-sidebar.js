@@ -30,6 +30,7 @@ var SidebarUI = {
           elementId: "sidebar-switcher-bookmarks",
           url: "chrome://browser/content/places/bookmarksSidebar.xhtml",
           menuId: "menu_bookmarksSidebar",
+          iconurl: "chrome://global/skin/icons/bookmark-outline.svg",
         }),
       ],
       [
@@ -68,6 +69,8 @@ var SidebarUI = {
   lastOpenedId: null,
 
   _box: null,
+  _sidebarTabs: null,
+  _sidebarIcons: null,
   // The constructor of this label accesses the browser element due to the
   // control="sidebar" attribute, so avoid getting this label during startup.
   get _title() {
@@ -100,6 +103,8 @@ var SidebarUI = {
 
   init() {
     this._box = document.getElementById("sidebar-box");
+    this._sidebarTabs = document.getElementById("sidebar-container");
+    this._sidebarIcons = document.getElementById("sidebar-icons");
     this._splitter = document.getElementById("sidebar-splitter");
     this._reversePositionButton = document.getElementById(
       "sidebar-reverse-position"
@@ -120,6 +125,38 @@ var SidebarUI = {
     Services.obs.addObserver(this, "intl:app-locales-changed");
 
     this._initDeferred.resolve();
+
+    const sidebarItemsKeys = this.sidebars.keys();
+
+    // Adiciona todos os itens na barra lateral
+    for(const sidebarItemKey of sidebarItemsKeys) {
+      this.createSidebarItem(sidebarItemKey, this.sidebars.get(sidebarItemKey), true);
+    }
+  },
+
+  async createSidebarItem(id, config, isinit = false) {
+    if(!isinit) {
+      await this.promiseInitialized();
+    }
+
+    // Se ja criou o elemento, ignora
+    if(document.getElementById(`sidebar-background-${id}`)) {
+      return;
+    }
+
+    const background = document.createXULElement("vbox");
+    background.classList.add("sidebar-item-background");
+    background.setAttribute("id", `sidebar-background-${id}`);
+
+    const icon = document.createElement('image');
+    icon.classList.add('sidebar-icon-item');
+    icon.setAttribute('id', `sidebar-icon-${id}`);
+    icon.setAttribute('src', `${config.iconurl}`);
+    icon.style.backgroundImage = `url(${config.iconurl})`;
+
+    background.append(icon);
+
+    this._sidebarIcons.appendChild(background);
   },
 
   uninit() {
@@ -298,8 +335,8 @@ var SidebarUI = {
       // Want to display as:  |   appcontent  | splitter |  sidebar-box  |
       // So we just swap box and appcontent ordering
       let appcontent = document.getElementById("appcontent");
-      let boxOrdinal = this._box.style.order;
-      this._box.style.order = appcontent.style.order;
+      let boxOrdinal = this._sidebarTabs.style.order;
+      this._sidebarTabs.style.order = appcontent.style.order;
       appcontent.style.order = boxOrdinal;
       // Indicate we've switched ordering to the box
       this._box.setAttribute("positionend", true);
@@ -661,6 +698,7 @@ var SidebarUI = {
       }
     }
   },
+
 };
 
 // Add getters related to the position here, since we will want them
