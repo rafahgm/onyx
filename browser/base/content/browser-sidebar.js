@@ -71,6 +71,7 @@ var SidebarUI = {
   _box: null,
   _sidebarTabs: null,
   _sidebarIcons: null,
+  _sidebarContent: null,
   // The constructor of this label accesses the browser element due to the
   // control="sidebar" attribute, so avoid getting this label during startup.
   get _title() {
@@ -100,11 +101,23 @@ var SidebarUI = {
   get initialized() {
     return this._inited;
   },
+  _generateUniquePanelID() {
+    if (!this._uniquePanelIDCounter) {
+      this._uniquePanelIDCounter = 0;
+    }
 
+    let outerID = window.docShell.outerWindowID;
+
+    // We want panel IDs to be globally unique, that's why we include the
+    // window ID. We switched to a monotonic counter as Date.now() lead
+    // to random failures because of colliding IDs.
+    return "sidebar-panel-" + outerID + "-" + ++this._uniquePanelIDCounter;
+  },
   init() {
     this._box = document.getElementById("sidebar-box");
     this._sidebarTabs = document.getElementById("sidebar-container");
     this._sidebarIcons = document.getElementById("sidebar-icons");
+    this._sidebarContent = document.getElementById("sidebar-tabpanels");
     this._splitter = document.getElementById("sidebar-splitter");
     this._reversePositionButton = document.getElementById(
       "sidebar-reverse-position"
@@ -132,6 +145,233 @@ var SidebarUI = {
     for(const sidebarItemKey of sidebarItemsKeys) {
       this.createSidebarItem(sidebarItemKey, this.sidebars.get(sidebarItemKey), true);
     }
+
+    // Cria browser inicial
+    let createOptions = {
+      uriIsAboutBlank: false, //uriIsAboutBlank: false,
+      userContextId: undefined, //userContextId,
+      initialBrowsingContextGroupId: undefined, //initialBrowsingContextGroupId,
+      remoteType: 'privilegedabout', //remoteType,
+      openWindowInfo: null //openWindowInfo,
+    };
+
+    const {
+      LOAD_FLAGS_NONE,
+      LOAD_FLAGS_ALLOW_THIRD_PARTY_FIXUP,
+      LOAD_FLAGS_FIXUP_SCHEME_TYPOS,
+    } = Ci.nsIWebNavigation;
+
+    let URILoadingWrapper = {
+      _normalizeLoadURIOptions(browser, loadURIOptions) {
+        if (!loadURIOptions.triggeringPrincipal) {
+          throw new Error("Must load with a triggering Principal");
+        }
+  
+        if (
+          loadURIOptions.userContextId &&
+          loadURIOptions.userContextId != browser.getAttribute("usercontextid")
+        ) {
+          throw new Error("Cannot load with mismatched userContextId");
+        }
+  
+        loadURIOptions.loadFlags |= loadURIOptions.flags | LOAD_FLAGS_NONE;
+        delete loadURIOptions.flags;
+        loadURIOptions.hasValidUserGestureActivation ??=
+          document.hasValidTransientUserGestureActivation;
+      },
+  
+      _loadFlagsToFixupFlags(browser, loadFlags) {
+        // Attempt to perform URI fixup to see if we can handle this URI in chrome.
+        let fixupFlags = Ci.nsIURIFixup.FIXUP_FLAG_NONE;
+        if (loadFlags & LOAD_FLAGS_ALLOW_THIRD_PARTY_FIXUP) {
+          fixupFlags |= Ci.nsIURIFixup.FIXUP_FLAG_ALLOW_KEYWORD_LOOKUP;
+        }
+        if (loadFlags & LOAD_FLAGS_FIXUP_SCHEME_TYPOS) {
+          fixupFlags |= Ci.nsIURIFixup.FIXUP_FLAG_FIX_SCHEME_TYPOS;
+        }
+        if (PrivateBrowsingUtils.isBrowserPrivate(browser)) {
+          fixupFlags |= Ci.nsIURIFixup.FIXUP_FLAG_PRIVATE_CONTEXT;
+        }
+        return fixupFlags;
+      },
+  
+      _fixupURIString(browser, uriString, loadURIOptions) {
+        let fixupFlags = this._loadFlagsToFixupFlags(
+          browser,
+          loadURIOptions.loadFlags
+        );
+  
+        // XXXgijs: If we switch to loading the URI we return from this method,
+        // rather than redoing fixup in docshell (see bug 1815509), we need to
+        // ensure that the loadURIOptions have the fixup flag removed here for
+        // loads where `uriString` already parses if just passed immediately
+        // to `newURI`.
+        // Right now this happens in nsDocShellLoadState code.
+        try {
+          let fixupInfo = Services.uriFixup.getFixupURIInfo(
+            uriString,
+            fixupFlags
+          );
+          return fixupInfo.preferredURI;
+        } catch (e) {
+          // getFixupURIInfo may throw. Just return null, our caller will deal.
+        }
+        return null;
+      },
+  
+      /**
+       * Handles URIs when we want to deal with them in chrome code rather than pass
+       * them down to a content browser. This can avoid unnecessary process switching
+       * for the browser.
+       * @param aBrowser the browser that is attempting to load the URI
+       * @param aUri the nsIURI that is being loaded
+       * @returns true if the URI is handled, otherwise false
+       */
+      _handleUriInChrome(aBrowser, aUri) {
+        if (aUri.scheme == "file") {
+          try {
+            let mimeType = Cc["@mozilla.org/mime;1"]
+              .getService(Ci.nsIMIMEService)
+              .getTypeFromURI(aUri);
+            if (mimeType == "application/x-xpinstall") {
+              let systemPrincipal =
+                Services.scriptSecurityManager.getSystemPrincipal();
+              AddonManager.getInstallForURL(aUri.spec, {
+                telemetryInfo: { source: "file-url" },
+              }).then(install => {
+                AddonManager.installAddonFromWebpage(
+                  mimeType,
+                  aBrowser,
+                  systemPrincipal,
+                  install
+                );
+              });
+              return true;
+            }
+          } catch (e) {
+            return false;
+          }
+        }
+  
+        return false;
+      },
+  
+      _updateTriggerMetadataForLoad(
+        browser,
+        uriString,
+        { loadFlags, globalHistoryOptions }
+      ) {
+        if (globalHistoryOptions?.triggeringSponsoredURL) {
+          try {
+            // Browser may access URL after fixing it up, then store the URL into DB.
+            // To match with it, fix the link up explicitly.
+            const triggeringSponsoredURL = Services.uriFixup.getFixupURIInfo(
+              globalHistoryOptions.triggeringSponsoredURL,
+              this._loadFlagsToFixupFlags(browser, loadFlags)
+            ).fixedURI.spec;
+            browser.setAttribute(
+              "triggeringSponsoredURL",
+              triggeringSponsoredURL
+            );
+            const time =
+              globalHistoryOptions.triggeringSponsoredURLVisitTimeMS ||
+              Date.now();
+            browser.setAttribute("triggeringSponsoredURLVisitTimeMS", time);
+          } catch (e) {}
+        }
+  
+        if (globalHistoryOptions?.triggeringSearchEngine) {
+          browser.setAttribute(
+            "triggeringSearchEngine",
+            globalHistoryOptions.triggeringSearchEngine
+          );
+          browser.setAttribute("triggeringSearchEngineURL", uriString);
+        } else {
+          browser.removeAttribute("triggeringSearchEngine");
+          browser.removeAttribute("triggeringSearchEngineURL");
+        }
+      },
+  
+      // Both of these are used to override functions on browser-custom-element.
+      fixupAndLoadURIString(browser, uriString, loadURIOptions = {}) {
+        this._internalMaybeFixupLoadURI(browser, uriString, null, loadURIOptions);
+      },
+      loadURI(browser, uri, loadURIOptions = {}) {
+        this._internalMaybeFixupLoadURI(browser, "", uri, loadURIOptions);
+      },
+  
+      // A shared function used by both remote and non-remote browsers to
+      // load a string URI or redirect it to the correct process.
+      _internalMaybeFixupLoadURI(browser, uriString, uri, loadURIOptions) {
+        this._normalizeLoadURIOptions(browser, loadURIOptions);
+        // Some callers pass undefined/null when calling
+        // loadURI/fixupAndLoadURIString. Just load about:blank instead:
+        if (!uriString && !uri) {
+          console.log("comecou com o google");
+          uri = Services.io.newURI("https://google.com");
+        }
+  
+        // We need a URI in frontend code for checking various things. Ideally
+        // we would then also pass that URI to webnav/browsingcontext code
+        // for loading, but we historically haven't. Changing this would alter
+        // fixup scenarios in some non-obvious cases.
+        let startedWithURI = !!uri;
+        if (!uri) {
+          // Note: this may return null if we can't make a URI out of the input.
+          uri = this._fixupURIString(browser, uriString, loadURIOptions);
+        }
+  
+        if (uri && this._handleUriInChrome(browser, uri)) {
+          // If we've handled the URI in chrome, then just return here.
+          return;
+        }
+  
+        this._updateTriggerMetadataForLoad(
+          browser,
+          uriString || uri.spec,
+          loadURIOptions
+        );
+  
+        // XXX(nika): Is `browser.isNavigating` necessary anymore?
+        // XXX(gijs): Unsure. But it mirrors docShell.isNavigating, but in the parent process
+        // (and therefore imperfectly so).
+        browser.isNavigating = true;
+  
+        try {
+          // Should more generally prefer loadURI here - see bug 1815509.
+          if (startedWithURI) {
+            browser.webNavigation.loadURI(uri, loadURIOptions);
+          } else {
+            browser.webNavigation.fixupAndLoadURIString(
+              uriString,
+              loadURIOptions
+            );
+          }
+        } finally {
+          browser.isNavigating = false;
+        }
+      },
+    };
+
+    let browser = this.createBrowser(createOptions);
+    browser.loadURI = URILoadingWrapper.loadURI.bind(
+      URILoadingWrapper,
+      browser
+    );
+    browser.fixupAndLoadURIString =
+      URILoadingWrapper.fixupAndLoadURIString.bind(
+        URILoadingWrapper,
+        browser
+      );
+
+    let panel = browser.parentNode.parentNode.parentNode;
+    panel.id = this._generateUniquePanelID();
+    this._sidebarContent.append(panel);
+
+    browser.docShellIsActive = true;
+
+    console.log('criou browser do sidebar');
+    // browser.loadURI('https://google.com', undefined);
   },
 
   async createSidebarItem(id, config, isinit = false) {
@@ -698,6 +938,130 @@ var SidebarUI = {
       }
     }
   },
+
+  createBrowser({
+    isPreloadBrowser,
+    name,
+    openWindowInfo,
+    remoteType,
+    initialBrowsingContextGroupId,
+    uriIsAboutBlank,
+    userContextId,
+    skipLoad,
+    initiallyActive,
+  } = {}) {
+    let b = document.createXULElement("browser");
+    // Use the JSM global to create the permanentKey, so that if the
+    // permanentKey is held by something after this window closes, it
+    // doesn't keep the window alive.
+    b.permanentKey = new (Cu.getGlobalForObject(Services).Object)();
+
+    // Ensure that SessionStore has flushed any session history state from the
+    // content process before we this browser's remoteness.
+    if (!Services.appinfo.sessionHistoryInParent) {
+      b.prepareToChangeRemoteness = () =>
+        SessionStore.prepareToChangeRemoteness(b);
+      b.afterChangeRemoteness = switchId => {
+        let tab = this.getTabForBrowser(b);
+        SessionStore.finishTabRemotenessChange(tab, switchId);
+        return true;
+      };
+    }
+
+    const defaultBrowserAttributes = {
+      contextmenu: "contentAreaContextMenu",
+      message: "true",
+      messagemanagergroup: "browsers",
+      tooltip: "aHTMLTooltip",
+      type: "content",
+    };
+    for (let attribute in defaultBrowserAttributes) {
+      b.setAttribute(attribute, defaultBrowserAttributes[attribute]);
+    }
+
+    if (gMultiProcessBrowser || remoteType) {
+      b.setAttribute("maychangeremoteness", "true");
+    }
+
+    if (!initiallyActive) {
+      b.setAttribute("initiallyactive", "false");
+    }
+
+    if (userContextId) {
+      b.setAttribute("usercontextid", userContextId);
+    }
+
+    if (remoteType) {
+      b.setAttribute("remoteType", remoteType);
+      b.setAttribute("remote", "true");
+    }
+
+    if (!isPreloadBrowser) {
+      b.setAttribute("autocompletepopup", "PopupAutoComplete");
+    }
+
+    /*
+     * This attribute is meant to describe if the browser is the
+     * preloaded browser. When the preloaded browser is created, the
+     * 'preloadedState' attribute for that browser is set to "preloaded", and
+     * when a new tab is opened, and it is time to show that preloaded
+     * browser, the 'preloadedState' attribute for that browser is removed.
+     *
+     * See more details on Bug 1420285.
+     */
+    if (isPreloadBrowser) {
+      b.setAttribute("preloadedState", "preloaded");
+    }
+
+    // Ensure that the browser will be created in a specific initial
+    // BrowsingContextGroup. This may change the process selection behaviour
+    // of the newly created browser, and is often used in combination with
+    // "remoteType" to ensure that the initial about:blank load occurs
+    // within the same process as another window.
+    if (initialBrowsingContextGroupId) {
+      b.setAttribute(
+        "initialBrowsingContextGroupId",
+        initialBrowsingContextGroupId
+      );
+    }
+
+    // Propagate information about the opening content window to the browser.
+    if (openWindowInfo) {
+      b.openWindowInfo = openWindowInfo;
+    }
+
+    // This will be used by gecko to control the name of the opened
+    // window.
+    if (name) {
+      // XXX: The `name` property is special in HTML and XUL. Should
+      // we use a different attribute name for this?
+      b.setAttribute("name", name);
+    }
+
+    let notificationbox = document.createXULElement("notificationbox");
+    notificationbox.setAttribute("notificationside", "top");
+
+    let stack = document.createXULElement("stack");
+    stack.className = "browserStack";
+    stack.appendChild(b);
+
+    let browserContainer = document.createXULElement("vbox");
+    browserContainer.className = "browserContainer";
+    browserContainer.appendChild(notificationbox);
+    browserContainer.appendChild(stack);
+
+    let browserSidebarContainer = document.createXULElement("hbox");
+    browserSidebarContainer.className = "browserSidebarContainer";
+    browserSidebarContainer.appendChild(browserContainer);
+
+    // Prevent the superfluous initial load of a blank document
+    // if we're going to load something other than about:blank.
+    if (!uriIsAboutBlank || skipLoad) {
+      b.setAttribute("nodefaultsrc", "true");
+    }
+
+    return b;
+  }
 
 };
 

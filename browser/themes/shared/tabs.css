@@ -54,7 +54,8 @@
   }
 }
 
-#tabbrowser-tabpanels {
+#tabbrowser-tabpanels,
+#sidebar-tabpanels {
   appearance: none;
   padding: 0;
   color-scheme: unset;

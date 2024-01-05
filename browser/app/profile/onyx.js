@@ -3,4 +3,4 @@
 #include peskyfox.js
 #include smoothfox.js
 
-perf('browser.toolbars.bookmarks.visibility', 'never');
+pref('browser.toolbars.bookmarks.visibility', 'never');
